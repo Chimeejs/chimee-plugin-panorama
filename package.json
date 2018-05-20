@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "jest",
+    "precommit": "npm run lint",
     "prepublishOnly": "npm t && pkg-ok",
     "unit": "jest --coverage --watch",
     "lint": "eslint . --fix",
