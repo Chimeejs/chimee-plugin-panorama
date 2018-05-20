@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "precommit": "npm run lint",
-    "prepublishOnly": "npm t && pkg-ok",
+    "prepublishOnly": "pkg-ok",
     "unit": "jest --coverage --watch",
     "lint": "eslint . --fix",
     "start": "rollup -c build/rollup.config.dev.js -w",
