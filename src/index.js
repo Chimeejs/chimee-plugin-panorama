@@ -1,5 +1,6 @@
 import Chimee from 'chimee';
-import { Scene, PerspectiveCamera, WebGLRenderer, Mesh, MeshBasicMaterial, SphereBufferGeometry, VideoTexture, LinearFilter, RGBFormat, Vector3, Math as ThreeMath } from 'three';
+import { Scene, PerspectiveCamera, WebGLRenderer, Mesh, MeshBasicMaterial, SphereBufferGeometry, VideoTexture, LinearFilter, RGBFormat, Vector3, Math as ThreeMath } from 'three'
+import { autobind } from 'toxic-decorators';
 
 export default class ChimeePluginPanorama extends Chimee.plugin {
   constructor(config, ...args) {
@@ -11,7 +12,6 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
       hideVideo: true,
     };
     Object.assign(myConfig, config);
-    console.log(myConfig);
     super(myConfig, ...args);
     this.customConfig = myConfig;
     this.lat = 0;
@@ -35,14 +35,21 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
       this.crossOrigin = 'anonymous';
     }
     this.$on('mousedown', this.onMouseDown);
-    this.$on('mousemove', this.onMouseMove);
-    this.$on('mouseup', this.onMouseUp);
+    this.$on('touchstart', this.onMouseDown);
+    
+    document.addEventListener('mousemove', this.onMouseMove);
+    document.addEventListener('touchmove', this.onMouseMove);
+    document.addEventListener('mouseup', this.onMouseUp);
+    document.addEventListener('touchend', this.onMouseUp);
+
     this.$on('wheel', this.onMouseWheel);
+    this.$on('mousewheel', this.onMouseWheel);
+    this.$on('DOMMouseScroll', this.onMouseWheel);
   }
 
   inited() {
     this.initCanvasSize();
-    // this.hideVideo();
+    this.hideVideo();
     this.initCamera();
     // The video texture only accept the video loadeded
     this.$on('loadeddata', () => {
@@ -127,6 +134,7 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
     this.$css('video', 'display', 'none');
   }
 
+  @autobind
   onMouseDown(event) {
     this.isUserInteracting = true;
     this.onPointerDownPointerX = event.clientX;
@@ -136,18 +144,21 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
     this.onPointerDownLon = this.lon;
   }
 
+  @autobind
   onMouseMove(event) {
     if (!this.isUserInteracting) return;
     this.lon = (this.onPointerDownPointerX - event.clientX) * 0.1 + this.onPointerDownLon;
-    this.lat = (event.clientY - this.onPointerDownPointerY) * 0.1 + this.onPointerDownLat;
+    this.lat = (this.onPointerDownPointerY - event.clientY) * 0.1 + this.onPointerDownLat;
   }
 
+  @autobind
   onMouseUp() {
     this.isUserInteracting = false;
   }
 
+  @autobind
   onMouseWheel(event) {
     this.distance += event.deltaY * 0.05;
-    this.distance = ThreeMath.clamp( this.distance, 1, 50);
+    this.distance = ThreeMath.clamp(this.distance, 1, 50);
   }
 }

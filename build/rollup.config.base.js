@@ -25,6 +25,7 @@ const babelConfig = {
     plugins: [
       'external-helpers',
       'transform-runtime',
+      'transform-decorators-legacy',
     ],
     externalHelpers: true,
     runtimeHelpers: true,
@@ -44,6 +45,7 @@ const babelConfig = {
     plugins: [
       'external-helpers',
       'transform-runtime',
+      'transform-decorators-legacy',
     ],
     externalHelpers: true,
     runtimeHelpers: true,
@@ -63,6 +65,7 @@ const babelConfig = {
     plugins: [
       'external-helpers',
       'transform-runtime',
+      'transform-decorators-legacy',
     ],
     externalHelpers: true,
     runtimeHelpers: true,
@@ -82,6 +85,7 @@ const babelConfig = {
     plugins: [
       'external-helpers',
       'transform-runtime',
+      'transform-decorators-legacy',
     ],
     externalHelpers: true,
     runtimeHelpers: true,
@@ -100,6 +104,7 @@ const babelConfig = {
     exclude: 'node_modules/**',
     plugins: [
       'external-helpers',
+      'transform-decorators-legacy',
     ],
     runtimeHelpers: true,
     babelrc: false,

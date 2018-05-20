@@ -48,6 +48,8 @@ const player = new Chimee({
   volume: 0.1,
   controls: true,
   canvas: true,
+  width: 740,
+  height: 390,
   autoplay: true,
   muted: true,
 });
