@@ -36,7 +36,7 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
     }
     this.$on('mousedown', this.onMouseDown);
     this.$on('touchstart', this.onMouseDown);
-    
+
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('touchmove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
@@ -65,7 +65,7 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
   destroy() {
     this.$off('mousedown', this.onMouseDown);
     this.$off('touchstart', this.onMouseDown);
-    
+
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('touchmove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
@@ -187,7 +187,7 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
     } = event.touches && event.touches.length
       ? event.touches[0]
       : event;
-    
+
     this.lon = (this.onPointerDownPointerX - clientX) * 0.1 + this.onPointerDownLon;
     this.lat = (this.onPointerDownPointerY - clientY) * 0.1 + this.onPointerDownLat;
   }
