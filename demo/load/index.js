@@ -48,13 +48,19 @@ const player = new Chimee({
   volume: 0.1,
   controls: true,
   canvas: true,
-  width: 740,
-  height: 390,
   autoplay: true,
   muted: true,
 });
 [ 'touchstart', 'touchmove', 'touchend' ].forEach(key => {
   player.$on(key, evt => console.log(evt, key));
+});
+
+const loadButton = document.createElement('button');
+loadButton.innerText = 'load';
+document.body.appendChild(loadButton);
+
+loadButton.addEventListener('click', function() {
+  player.load(player.src);
 });
 
 window.player = player;

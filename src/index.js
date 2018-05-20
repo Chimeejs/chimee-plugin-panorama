@@ -1,5 +1,5 @@
 import Chimee from 'chimee';
-import { Scene, PerspectiveCamera, WebGLRenderer, Mesh, MeshBasicMaterial, SphereBufferGeometry, VideoTexture, LinearFilter, RGBFormat, Vector3, Math as ThreeMath } from 'three'
+import { Scene, PerspectiveCamera, WebGLRenderer, Mesh, MeshBasicMaterial, SphereBufferGeometry, VideoTexture, LinearFilter, RGBFormat, Vector3, Math as ThreeMath } from 'three';
 import { autobind } from 'toxic-decorators';
 
 export default class ChimeePluginPanorama extends Chimee.plugin {
@@ -45,6 +45,8 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
     this.$on('wheel', this.onMouseWheel);
     this.$on('mousewheel', this.onMouseWheel);
     this.$on('DOMMouseScroll', this.onMouseWheel);
+
+    this.$on('load', this.onload);
   }
 
   inited() {
@@ -58,6 +60,22 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
       this.initRenderer();
     });
     this.poller(this.render);
+  }
+
+  destroy() {
+    this.$off('mousedown', this.onMouseDown);
+    this.$off('touchstart', this.onMouseDown);
+    
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('touchmove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
+    document.removeEventListener('touchend', this.onMouseUp);
+
+    this.$off('wheel', this.onMouseWheel);
+    this.$off('mousewheel', this.onMouseWheel);
+    this.$off('DOMMouseScroll', this.onMouseWheel);
+
+    this.$off('load', this.onload);
   }
 
   initCanvasSize() {
@@ -76,13 +94,17 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
   }
 
   initScene() {
+    const scene = new Scene();
+    const mesh = this.createMesh();
+    scene.add(mesh);
+    this.scene = scene;
+  }
+
+  createMesh() {
     const geometry = new SphereBufferGeometry(500, 60, 40);
     // invert the geometry on the x-axis so that all of the faces point inward
     geometry.scale(-1, 1, 1);
-
-    const scene = new Scene();
     const texture = new VideoTexture(this.$video);
-    // const texture = new VideoTexture(video);
     texture.minFilter = LinearFilter;
     texture.format = RGBFormat;
 
@@ -91,9 +113,10 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
     });
 
     const mesh = new Mesh(geometry, material);
-    scene.add(mesh);
 
-    this.scene = scene;
+    this.mesh = mesh;
+
+    return mesh;
   }
 
   initRenderer() {
@@ -131,7 +154,9 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
   }
 
   hideVideo() {
-    this.$css('video', 'display', 'none');
+    if (this.hideVideo) {
+      this.$css('video', 'display', 'none');
+    }
   }
 
   @autobind
@@ -160,5 +185,12 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
   onMouseWheel(event) {
     this.distance += event.deltaY * 0.05;
     this.distance = ThreeMath.clamp(this.distance, 1, 50);
+  }
+
+  onload() {
+    if (this.scene && this.mesh) {
+      this.scene.remove(this.mesh);
+      this.scene.add(this.createMesh());
+    }
   }
 }
