@@ -162,8 +162,16 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
   @autobind
   onMouseDown(event) {
     this.isUserInteracting = true;
-    this.onPointerDownPointerX = event.clientX;
-    this.onPointerDownPointerY = event.clientY;
+
+    const {
+      clientX,
+      clientY,
+    } = event.touches && event.touches.length
+      ? event.touches[0]
+      : event;
+
+    this.onPointerDownPointerX = clientX;
+    this.onPointerDownPointerY = clientY;
 
     this.onPointerDownLat = this.lat;
     this.onPointerDownLon = this.lon;
@@ -172,8 +180,16 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
   @autobind
   onMouseMove(event) {
     if (!this.isUserInteracting) return;
-    this.lon = (this.onPointerDownPointerX - event.clientX) * 0.1 + this.onPointerDownLon;
-    this.lat = (this.onPointerDownPointerY - event.clientY) * 0.1 + this.onPointerDownLat;
+
+    const {
+      clientX,
+      clientY,
+    } = event.touches && event.touches.length
+      ? event.touches[0]
+      : event;
+    
+    this.lon = (this.onPointerDownPointerX - clientX) * 0.1 + this.onPointerDownLon;
+    this.lat = (this.onPointerDownPointerY - clientY) * 0.1 + this.onPointerDownLat;
   }
 
   @autobind
