@@ -11,6 +11,7 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
       hideVideo: true,
     };
     Object.assign(myConfig, config);
+    console.log(myConfig);
     super(myConfig, ...args);
     this.customConfig = myConfig;
     this.lat = 0;
@@ -36,6 +37,7 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
     this.$on('mousedown', this.onMouseDown);
     this.$on('mousemove', this.onMouseMove);
     this.$on('mouseup', this.onMouseUp);
+    this.$on('wheel', this.onMouseWheel);
   }
 
   inited() {
@@ -142,5 +144,10 @@ export default class ChimeePluginPanorama extends Chimee.plugin {
 
   onMouseUp() {
     this.isUserInteracting = false;
+  }
+
+  onMouseWheel(event) {
+    this.distance += event.deltaY * 0.05;
+    this.distance = ThreeMath.clamp( this.distance, 1, 50);
   }
 }
