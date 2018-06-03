@@ -1,6 +1,6 @@
 {
   "name": "chimee-plugin-panorama",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A plugin for panorama video in chimee",
   "main": "lib/index.js",
   "scripts": {
@@ -36,6 +36,9 @@
     "chimee": "^0.10.0",
     "three": "^0.93.0",
     "toxic-decorators": "^0.3.8"
+  },
+  "peerDependencies": {
+    "chimee": ">=0.10.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",

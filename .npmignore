@@ -13,3 +13,6 @@ tool/
 bundle-size/
 .babelrc
 .flowconfig
+src/
+.eslintrc
+.eslintignore
