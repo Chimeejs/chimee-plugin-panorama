@@ -1,6 +1,6 @@
 {
   "name": "chimee-plugin-panorama",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A plugin for panorama video in chimee",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
