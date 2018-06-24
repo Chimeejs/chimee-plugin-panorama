@@ -15,7 +15,7 @@ It use like most of the chimee plugin.
 
 ```javascript
 import Chimee from 'chimee';
-import ChimeePluginPanorama from 'chimee-plugin-panorama'';
+import ChimeePluginPanorama from 'chimee-plugin-panorama';
 Chimee.install(ChimeePluginPanorama);
 const player = new Chimee({
   src: 'http://cdn.toxicjohann.com/shark.mp4',
