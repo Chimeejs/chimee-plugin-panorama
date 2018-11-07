@@ -1,4 +1,7 @@
 # chimee-plugin-panorama
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/Chimeejs/chimee-plugin-panorama.svg)](https://greenkeeper.io/)
+
 A plugin for panorama video
 
 ## install
